@@ -1,0 +1,45 @@
+                        Term::ANSIScreen version 1.0
+               (Terminal control using ANSI escape sequences)
+
+  Copyright 2001 by Autrijus Tang <autrijus@autrijus.org>.
+  Based on works of Zenin (zenin@best.com),
+                    Russ Allbery (rra@stanford.edu).
+
+  All rights reserved.  This module is free software; you can
+  redistribute it and/or modify it under the same terms as Perl
+  itself.
+
+
+INTRODUCTION
+
+  Term::ANSIScreen, originally named Term::ANSI, was intended as an
+  extension to Term::ANSIColor, which is a part of standard distribution.
+
+  After consulting Term::ANSIColor's authors, its name had been
+  changed to avoid conflicts with the original module. Basically,
+  Term::ANSIScreen provides the same functionality as Term::ANSIColor
+  (up to v1.03), as well as screen mode, cursor control and keyboard
+  mapping sequences.
+
+  The author (Autrijus Tang) is aware that the additional features are
+  largely superseded by Win32::Console and Curse-based modules, but
+  decides to put up this for the poor souls still using ANSI.SYS on
+  DOSish platforms.
+
+  See the POD documentation for complete details, features, and usage.
+
+
+INSTALLATION
+
+  Follow the standard installation procedure for Perl modules, which is to
+  type the following commands:
+
+          perl Makefile.PL
+          make
+          make test
+          make install
+
+  You'll probably need to do the last as root.  If instead you wish to
+  install the module by hand, simply copy it into a directory named Term in
+  your Perl library directory.
+
