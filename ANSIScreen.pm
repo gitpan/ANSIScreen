@@ -46,7 +46,7 @@ require 5.001;
 use vars qw/@ISA @EXPORT %EXPORT_TAGS $VERSION $AUTOLOAD
             %attributes %sequences $AUTORESET $EACHLINE/;
 
-$VERSION = '1.0';
+$VERSION = '1.2';
 
 use strict;
 use Exporter;
@@ -102,6 +102,55 @@ $EXPORT_TAGS{all} = [map {@{$_}} values (%EXPORT_TAGS)];
 
 @EXPORT = @{$EXPORT_TAGS{'color'}};
 Exporter::export_ok_tags (keys(%EXPORT_TAGS));
+
+sub new {
+    my $class = shift;
+
+    if ($^O eq 'MSWin32' and @_) {
+        require Win32::Console;
+        return Win32::Console->new();
+    }
+
+    no strict 'refs';
+    unless ($main::FG_WHITE) {
+        foreach my $color (grep { $attributes{$_} >= 30 } keys %attributes) {
+            my $name = 'FG_'.uc($color);
+            $name =~ s/^FG_ON_/BG_/;
+            ${"main::$name"} = color($color);
+            $name =~ s/_/_LIGHT/;
+            ${"main::$name"} = color('bold', $color);
+        }
+        $main::FG_LIGHTWHITE = $main::FG_WHITE;
+        $main::FG_BROWN      = $main::FG_YELLOW;
+        $main::FG_YELLOW     = $main::FG_LIGHTYELLOW;
+        $main::FG_WHITE      = color('clear');
+    }
+    
+    return bless([ @_ ], $class);
+}
+
+sub Attr {
+    shift;
+    print STDERR @_;
+}
+
+sub Cls {
+    print STDERR cls();
+}
+
+sub Cursor {
+    shift;
+    print STDERR locate($_[1]+1, $_[0]+1);
+}
+
+sub Write {
+    shift;
+    print STDERR @_;
+}
+
+sub Display {
+}
+
 
 # --------------
 # Implementation
